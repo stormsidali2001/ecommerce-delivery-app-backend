@@ -50,7 +50,9 @@ model Client{
   userId Int @unique
   orders Order[]
 
-  orderReviews OrderReview[]
+  ordersReviews OrderReview[]
+  productsReviws ProductReview[]
+  deliveryManReviews DeliveryManReview[]
 
 }
 model DeliveryMan{
@@ -59,6 +61,9 @@ model DeliveryMan{
   lastName String
   user User @relation(fields: [userId],references: [id])
   userId Int @unique
+
+  reviews DeliveryManReview[]
+  ordersInCharge Order[] 
 }
 
 model Product{
@@ -70,6 +75,7 @@ model Product{
   imageUrl Int
 
   orders ProductsOnOrder[]
+  reviews ProductReview[]
 }
 
 model Order{
@@ -79,8 +85,10 @@ model Order{
   createdAt DateTime @default(now())
   clientId Int
   products ProductsOnOrder[] 
-
   reviews OrderReview[]
+  assignedTo DeliveryMan @relation(fields: [deliveryManId],references: [id])
+  deliveryManId Int
+  deliveryMenReviews  DeliveryManReview[]
 }
 model ProductsOnOrder{
   quantity Int
@@ -91,6 +99,9 @@ model ProductsOnOrder{
   @@id([orderId,productId])
 }
 
+
+
+
 model OrderReview{
   id Int @default(autoincrement()) @id
   description String
@@ -99,7 +110,37 @@ model OrderReview{
 
   client Client @relation(fields: [clientId],references: [id])
   clientId Int
+
+  order Order @relation(fields: [orderId],references: [id])
+  orderId Int
+
+}
+model ProductReview{
+  id Int @default(autoincrement()) @id
+  description String
+  stars Int
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId],references: [id])
+  productId Int
   
+ client Client @relation(fields: [clientId],references: [id])
+  clientId Int
+
+}
+
+model DeliveryManReview{
+   id Int @default(autoincrement()) @id
+  description String
+  stars Int
+  createdAt DateTime @default(now())
+
+  client Client @relation(fields: [clientId],references: [id])
+  clientId Int
+
+  deliveryMan DeliveryMan @relation(fields: [deliveryManId],references: [id])
+  deliveryManId Int
+
   order Order @relation(fields: [orderId],references: [id])
   orderId Int
 
