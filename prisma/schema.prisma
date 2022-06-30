@@ -20,13 +20,13 @@ model  User {
   admin Admin?
   client Client?
   deliveryMan DeliveryMan?
-  roles Role[] 
+  roles Role[] @relation("user_roles") 
 
 }
 
 model Role{
   name String @unique @id
-  users User[]
+  users User[] @relation("user_roles")
 }
 
 
@@ -58,5 +58,12 @@ model DeliveryMan{
   userId Int @unique
 }
 
-
+model Product{
+  id Int @default(autoincrement()) @id
+  name String
+  description String
+  quantity Int
+  price Int
+  imageUrl Int
+}
 
