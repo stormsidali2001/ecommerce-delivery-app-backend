@@ -33,8 +33,10 @@ model Admin{
 }
 model Client{
   id Int @default(autoincrement()) @id
+  ssn String @unique
   firstName String
   lastName String
+  dob String
   phoneNumber String
   address String
   user User @relation(fields: [userId],references: [id])
@@ -47,6 +49,4 @@ model DeliveryMan{
   lastName String
   user User @relation(fields: [userId],references: [id])
   userId Int @unique
-
-
 }
