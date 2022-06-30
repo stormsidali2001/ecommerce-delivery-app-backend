@@ -48,6 +48,7 @@ model Client{
   address String
   user User @relation(fields: [userId],references: [id])
   userId Int @unique
+  orders Order[]
 
 }
 model DeliveryMan{
@@ -67,3 +68,18 @@ model Product{
   imageUrl Int
 }
 
+model Order{
+  id Int @default(autoincrement()) @id
+  status OrderStatus @default(WAIT)
+  client Client @relation(fields: [clientId],references: [id])
+  clientId Int
+}
+
+
+enum OrderStatus{
+    WAIT
+    APPROVED
+    ASSIGNED
+    UNDER_DELIVERY
+    DELIVERED
+}
