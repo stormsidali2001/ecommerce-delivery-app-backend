@@ -15,5 +15,38 @@ datasource db {
 model  User {
   id Int @default(autoincrement()) @id
   email String
+  username String
   password String
+  admin Admin?
+  client Client?
+  deliveryMan DeliveryMan?
+
+}
+
+model Admin{
+  id Int @default(autoincrement()) @id
+  firstName String
+  lastName String
+  user User @relation(fields: [userId],references: [id])
+  userId Int @unique
+
+}
+model Client{
+  id Int @default(autoincrement()) @id
+  firstName String
+  lastName String
+  phoneNumber String
+  address String
+  user User @relation(fields: [userId],references: [id])
+  userId Int @unique
+
+}
+model DeliveryMan{
+  id Int @default(autoincrement()) @id
+  firstName String
+  lastName String
+  user User @relation(fields: [userId],references: [id])
+  userId Int @unique
+
+
 }
