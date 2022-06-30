@@ -20,8 +20,15 @@ model  User {
   admin Admin?
   client Client?
   deliveryMan DeliveryMan?
+  roles Role[] 
 
 }
+
+model Role{
+  name String @unique @id
+  users User[]
+}
+
 
 model Admin{
   id Int @default(autoincrement()) @id
@@ -50,3 +57,6 @@ model DeliveryMan{
   user User @relation(fields: [userId],references: [id])
   userId Int @unique
 }
+
+
+
