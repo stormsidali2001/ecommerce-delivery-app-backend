@@ -9,9 +9,11 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 
+}
 
 
-
-
-
+model  User {
+  id Int @default(autoincrement()) @id
+  email String
+  password String
 }
