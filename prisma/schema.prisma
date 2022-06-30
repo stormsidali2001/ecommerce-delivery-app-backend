@@ -50,6 +50,8 @@ model Client{
   userId Int @unique
   orders Order[]
 
+  orderReviews OrderReview[]
+
 }
 model DeliveryMan{
   id Int @default(autoincrement()) @id
@@ -66,15 +68,42 @@ model Product{
   quantity Int
   price Int
   imageUrl Int
+
+  orders ProductsOnOrder[]
 }
 
 model Order{
   id Int @default(autoincrement()) @id
   status OrderStatus @default(WAIT)
   client Client @relation(fields: [clientId],references: [id])
+  createdAt DateTime @default(now())
   clientId Int
+  products ProductsOnOrder[] 
+
+  reviews OrderReview[]
+}
+model ProductsOnOrder{
+  quantity Int
+  order Order @relation(fields: [orderId],references: [id])
+  orderId Int 
+  product Product @relation(fields: [productId],references: [id])
+  productId Int 
+  @@id([orderId,productId])
 }
 
+model OrderReview{
+  id Int @default(autoincrement()) @id
+  description String
+  stars Int
+  createdAt DateTime @default(now())
+
+  client Client @relation(fields: [clientId],references: [id])
+  clientId Int
+  
+  order Order @relation(fields: [orderId],references: [id])
+  orderId Int
+
+}
 
 enum OrderStatus{
     WAIT
