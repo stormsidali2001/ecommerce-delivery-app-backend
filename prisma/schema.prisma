@@ -61,6 +61,7 @@ model DeliveryMan{
   dob String
   phoneNumber String
   address String
+  ssn String @unique
   user User @relation(fields: [userId],references: [id])
   userId Int @unique
 

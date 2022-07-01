@@ -42,14 +42,23 @@ export class AuthService{
                 throw new HttpException("email already exist",HttpStatus.FORBIDDEN);
             }
             const hashedPassword = await bcrypt.hash(password,10);
-          
+            const clientRole = await this.prisma.role.findUnique({
+                where:{
+                    name:'client'
+                }
+            })
             const newClient = await this.prisma.client.create({
                 data:{
                     ...others,
                     user:{
                         create:{
                             email,
-                            password:hashedPassword
+                            password:hashedPassword,
+                            roles:{
+                                [clientRole?'connect':'create']:{
+                                    name:clientRole?clientRole.name:'client'
+                                   }
+                            }
                         }
                     }
                 }
@@ -84,14 +93,23 @@ export class AuthService{
                 throw new HttpException("email already exist",HttpStatus.FORBIDDEN);
             }
             const hashedPassword = await bcrypt.hash(password,10);
-          
+            const deliveryManRole = await this.prisma.role.findUnique({
+                where:{
+                    name:'deliveryMan'
+                }
+            })
             const newDl = await this.prisma.deliveryMan.create({
                 data:{
                     ...others,
                     user:{
                         create:{
                             email,
-                            password:hashedPassword
+                            password:hashedPassword,
+                            roles:{
+                                [deliveryManRole?'connect':'create']:{
+                                    name:deliveryManRole?deliveryManRole.name:'deliveryMan'
+                                   }
+                            }
                         }
                     }
                 }
@@ -125,14 +143,24 @@ export class AuthService{
                 throw new HttpException("email already exist",HttpStatus.FORBIDDEN);
             }
             const hashedPassword = await bcrypt.hash(password,10);
-          
+            const adminRole = await this.prisma.role.findUnique({
+                where:{
+                    name:'admin'
+                }
+            })
+           
             const newAdmin = await this.prisma.admin.create({
                 data:{
                     ...others,
                     user:{
                         create:{
                             email,
-                            password:hashedPassword
+                            password:hashedPassword,
+                            roles:{
+                               [adminRole?'connect':'create']:{
+                                name:adminRole?adminRole.name:'admin'
+                               }
+                            }
                         }
                     }
                 }
