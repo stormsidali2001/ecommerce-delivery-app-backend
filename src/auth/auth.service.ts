@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from 'bcryptjs';
-import { AdminRegistrationDto, ClientRegistrationDto, DeliveryManRegistrationDto } from "src/dto/registrationDtos";
+import { AdminRegistrationDto, ClientRegistrationDto, DeliveryManRegistrationDto, UserSigninDTO } from "src/dto/registrationDtos";
 
 
 
@@ -13,9 +13,31 @@ export class AuthService{
         ){
 
     }
-    async signin(email:string , password:string){
+    async signin(credentials:UserSigninDTO){
+        const {email,password} = credentials;
         const logger = new Logger("AuthService/signin");
         try{
+            const user = await this.prisma.user.findUnique({
+                where:{
+                    email
+                },
+                include:{
+                    roles:true
+                }
+            })
+            if(!user){
+                logger.error("wrong email");
+                throw new HttpException("wrong email",HttpStatus.FORBIDDEN);
+            }
+            const equal:boolean = await bcrypt.compare(password,user.password);
+            if(!equal){
+                logger.error("Wrong Password")
+                throw new HttpException('Wrong Password',HttpStatus.BAD_REQUEST);
+            }
+            const  {password:ps,...res} = user;            
+            return res;
+
+
         
         }catch(err){
             logger.error(err);

@@ -1,0 +1,27 @@
+POST http://localhost:8080/auth/signin
+content-type:application/json
+
+{
+    "email":"assoulsidali@gmail.com",
+    "password":"123456"
+}
+
+###
+GET http://localhost:8080/auth/user
+content-type:application/json
+
+###
+POST http://localhost:8080/auth/signup/client
+content-type:application/json
+
+{
+    "email":"assoulsidali@gmail.com",
+    "password":"123456",
+    "firstName":"",
+    "lastName":"",
+    "dob":"",
+    "phoneNumber":"",
+    "address":"",
+    
+}
+
