@@ -59,6 +59,9 @@ model DeliveryMan{
   id Int @default(autoincrement()) @id
   firstName String
   lastName String
+  dob String
+  phoneNumber String
+  address String
   user User @relation(fields: [userId],references: [id])
   userId Int @unique
 

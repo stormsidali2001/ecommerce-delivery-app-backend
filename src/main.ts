@@ -19,7 +19,6 @@ async function bootstrap() {
 });
 
 
-// app.use(cookieParser())
 app.use(sessionMid)
 //for session with passport
 app.use(passport.initialize())
