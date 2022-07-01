@@ -107,8 +107,50 @@ export class AuthService{
             
     }
     async signUpAdmin(admin:AdminRegistrationDto){
-            
+        const logger = new Logger("AuthService/signUpDeliveryMan")
+        try{
+            const {
+                email,
+                password,
+                ...others
+            } = admin;
+          
+            const user = await this.prisma.user.findUnique({
+                where:{
+                    email
+                }
+            });
+            if(user){
+                logger.error("email already exist");
+                throw new HttpException("email already exist",HttpStatus.FORBIDDEN);
+            }
+            const hashedPassword = await bcrypt.hash(password,10);
+          
+            const newAdmin = await this.prisma.admin.create({
+                data:{
+                    ...others,
+                    user:{
+                        create:{
+                            email,
+                            password:hashedPassword
+                        }
+                    }
+                }
+            })
+
+            return newAdmin;
+
+
+        }catch(err){
+            logger.error(err);
+            throw new HttpException(err,HttpStatus.FORBIDDEN);
+        }
+
     }
    
+
+
+
+
 
 }
