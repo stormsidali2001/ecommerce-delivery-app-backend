@@ -5,11 +5,13 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { HttpErrorFilter } from './common/filters/http.error.filter';
 import { LoggingInterceptor } from './common/filters/logging.interceptor';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [  
     ConfigModule.forRoot({isGlobal:true}), 
-    AuthModule
+    AuthModule,
+    ProductsModule
   ],
   controllers: [],
   providers: [

@@ -2,7 +2,7 @@ POST http://localhost:8080/auth/signin
 content-type:application/json
 
 {
-    "email":"assoulsidali@gmail.com",
+    "email":"admino@gmail.com",
     "password":"123456"
 }
 
@@ -15,13 +15,24 @@ POST http://localhost:8080/auth/signup/client
 content-type:application/json
 
 {
-    "email":"assoulsidali@gmail.com",
+    "email":"assoulsidali6@gmail.com",
     "password":"123456",
-    "firstName":"",
-    "lastName":"",
-    "dob":"",
-    "phoneNumber":"",
-    "address":"",
-    
+    "firstName":"sidali",
+    "lastName":"assoul",
+    "dob":"20-04-2001",
+    "phoneNumber":"0663737507",
+    "address":"bejaia",
+    "ssn":"56644"
 }
 
+###
+POST http://localhost:8080/auth/signup/admin/saffsa;sfajfsajfsajl;fsfsa;sfkj
+content-type:application/json
+
+{
+    "email":"admino@gmail.com",
+    "password":"123456",
+    "firstName":"ad",
+    "lastName":"min"
+   
+}

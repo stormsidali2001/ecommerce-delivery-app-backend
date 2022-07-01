@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Request, UseGuards } from "@nestjs/common";
 import { GetCurrentUser } from "src/common/decorators/get-current-user";
 import { Public } from "src/common/decorators/public.decorator";
 import { LocalAuthGuard } from "src/common/guards/local-auth-guard";
@@ -12,9 +12,12 @@ export class AuthController{
         private readonly authService:AuthService
     ){}
     
-    @Public()
+
     @Post('signup/client')
-    async signUpClient(@Body() client:ClientRegistrationDto){
+    async signUpClient(@Body() client:ClientRegistrationDto,@GetCurrentUser() user){
+        if(!user.roles.some(el=>el.name === 'admin')){
+            throw new HttpException("permission denied",HttpStatus.FORBIDDEN);
+        }
         return this.authService.signUpClient(client);
     }
 
