@@ -24,27 +24,91 @@ export class AuthService{
         }
     }
     async signUpClient(client:ClientRegistrationDto){
+        const logger = new Logger("AuthService/signUpClient")
+        try{
             const {
                 email,
                 password,
-                dob,
-                address,
-                firstName,
-                lastName,
-                ssn,
-                phoneNumber
+                ...others
             } = client;
-            const user = this.prisma.user.findUnique({where:{
-                email
-            }})
+          
+            const user = await this.prisma.user.findUnique({
+                where:{
+                    email
+                }
+            });
+            if(user){
+                logger.error("email already exist");
+                throw new HttpException("email already exist",HttpStatus.FORBIDDEN);
+            }
             const hashedPassword = await bcrypt.hash(password,10);
+          
+            const newClient = await this.prisma.client.create({
+                data:{
+                    ...others,
+                    user:{
+                        create:{
+                            email,
+                            password:hashedPassword
+                        }
+                    }
+                }
+            })
+
+            return newClient;
+
+
+        }catch(err){
+            logger.error(err);
+            throw new HttpException(err,HttpStatus.FORBIDDEN);
+        }
+         
             
     }
     async signUpDeliveryMan(deliveryMan:DeliveryManRegistrationDto){
+        const logger = new Logger("AuthService/signUpDeliveryMan")
+        try{
+            const {
+                email,
+                password,
+                ...others
+            } = deliveryMan;
+          
+            const user = await this.prisma.user.findUnique({
+                where:{
+                    email
+                }
+            });
+            if(user){
+                logger.error("email already exist");
+                throw new HttpException("email already exist",HttpStatus.FORBIDDEN);
+            }
+            const hashedPassword = await bcrypt.hash(password,10);
+          
+            const newDl = await this.prisma.deliveryMan.create({
+                data:{
+                    ...others,
+                    user:{
+                        create:{
+                            email,
+                            password:hashedPassword
+                        }
+                    }
+                }
+            })
+
+            return newDl;
+
+
+        }catch(err){
+            logger.error(err);
+            throw new HttpException(err,HttpStatus.FORBIDDEN);
+        }
             
     }
     async signUpAdmin(admin:AdminRegistrationDto){
             
     }
+   
 
 }
