@@ -13,11 +13,9 @@ export class OrderService{
     async createOrder(order:OrderDto,userId:number){
         const logger = new Logger("OrderService/createOrder");
         try{
-          
             const products = await this.prisma.product.findMany({
                 where:{
                     id:{
-                        
                         in:order.cart.map(({productId})=>{return productId})
                     }
                 }
@@ -36,7 +34,7 @@ export class OrderService{
                 }
             }
 
-            this.prisma.order.create({
+          const newOrder =  await  this.prisma.order.create({
                 data:{
                    client:{
                     connect:{
@@ -46,13 +44,17 @@ export class OrderService{
                    products:{
                     createMany:{
                         data:cart.map(({productId,quantity})=>{return {productId,quantity}})
+                        
                     }
                    },
+               
+                   
                   
                    
                 }
             })
          
+            return newOrder
         }catch(err){
             logger.error(err)
             throw new HttpException(err,HttpStatus.INTERNAL_SERVER_ERROR)
