@@ -33,5 +33,5 @@ export class ProductsController{
         }
         return this.productsService.deleteProduct(productId)
     }
-
+    
 }

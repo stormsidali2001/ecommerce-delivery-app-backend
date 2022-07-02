@@ -92,7 +92,7 @@ model Order{
   clientId Int
   products ProductsOnOrder[] 
   reviews OrderReview[]
-  assignedTo DeliveryMan @relation(fields: [deliveryManId],references: [id])
+  assignedTo DeliveryMan? @relation(fields: [deliveryManId],references: [id])
   deliveryManId Int
   deliveryMenReviews  DeliveryManReview[]
 }
