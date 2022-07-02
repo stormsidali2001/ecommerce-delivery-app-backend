@@ -36,3 +36,38 @@ content-type:application/json
     "lastName":"min"
    
 }
+###
+POST http://localhost:8080/products/add
+Content-Type:application/json
+
+{
+  "name":"doliprane",
+  "description":"sfakjfksajhfashfaf",
+  "price":"70",
+  "quantity":"85",
+  "imageUrl":"./products/1.png"
+  
+}
+###
+PUT http://localhost:8080/products/update
+Content-Type:application/json
+
+{
+  "productId":"1",
+   "data":{
+        "name":"doliprane1",
+        "description":"sfakjfksajhfashfafqfsfqs 7"
+        
+   }
+ 
+  
+}
+
+###
+Delete http://localhost:8080/products/delete
+Content-Type:application/json
+
+{
+  "productId":"1"
+  
+}
