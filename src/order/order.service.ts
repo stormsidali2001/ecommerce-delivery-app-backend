@@ -148,5 +148,25 @@ export class OrderService{
             throw new HttpException(err,HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
+
+
+    async getDeliveryManOrders(userId:number){
+        const logger = new Logger("OrderService/getDeliveryManOrders");
+        try{
+            return this.prisma.order.findMany({
+                where:{
+                   assignedTo:{
+                    userId
+                   }
+                },
+                include:{
+                    client:true
+                }
+            })
+        }catch(err){
+            logger.error(err)
+            throw new HttpException(err,HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
     
 }

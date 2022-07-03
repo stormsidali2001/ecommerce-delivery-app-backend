@@ -45,4 +45,11 @@ export class OrderController{
         return await this.orderService.assignOrderToDeliveryMan(orderId,deliveryManId);
     }
 
+    @Get("delivery-man")
+    async getDeliveryManOrders(@GetCurrentUser() user){
+        if(!user.roles.some(el=>el.name === 'deliveryMan')){
+            throw new HttpException("permission denied",HttpStatus.FORBIDDEN);
+        }
+        return this.orderService.getDeliveryManOrders(user.id);
+    }
 }

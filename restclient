@@ -2,7 +2,7 @@ POST http://localhost:8080/auth/signin
 content-type:application/json
 
 {
-    "email":"admino@gmail.com",
+    "email":"borahim@gmail.com",
     "password":"123456"
 }
 
@@ -119,3 +119,6 @@ content-type:application/json
     "orderId":"1",
     "deliveryManId":"1"
 }
+
+###
+GET http://localhost:8080/order/delivery-man
