@@ -47,7 +47,8 @@ export class OrderService{
                         
                     }
                    },
-               
+
+                  assignedTo:undefined,
                    
                   
                    
