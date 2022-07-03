@@ -168,5 +168,13 @@ export class OrderService{
             throw new HttpException(err,HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
-    
+    async startingDelivery(orderId:number,userId:number){
+        const logger = new Logger("OrderService/getDeliveryManOrders");
+        try{
+          
+        }catch(err){
+            logger.error(err)
+            throw new HttpException(err,HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
 }
