@@ -118,6 +118,15 @@ export class OrderService{
     async assignOrderToDeliveryMan(orderId:number,deliveryManId:number){
         const logger = new Logger("OrderService/assignOrderToDeliveryMan");
         try{
+            const order = await this.prisma.order.findUnique({
+                where:{
+                    id:orderId
+                }
+            })
+            if(order.status !== OrderStatus.APPROVED ){
+                logger.error(`order is in ${order.status} state (expected: approved)`)
+                throw new HttpException(`order is in ${order.status} state (expected: approved)`,HttpStatus.AMBIGUOUS)
+            }
             await this.prisma.order.update({
                 where:{
                     id:orderId
@@ -126,8 +135,10 @@ export class OrderService{
                     assignedTo:{
                         connect:{
                             id:deliveryManId
-                        }
-                    }
+                        },
+                    },
+                    status:OrderStatus.ASSIGNED
+
                 }
             })
         }catch(err){
