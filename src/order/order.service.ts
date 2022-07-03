@@ -127,7 +127,7 @@ export class OrderService{
                 logger.error(`order is in ${order.status} state (expected: approved)`)
                 throw new HttpException(`order is in ${order.status} state (expected: approved)`,HttpStatus.AMBIGUOUS)
             }
-            await this.prisma.order.update({
+          const newOrder =   await this.prisma.order.update({
                 where:{
                     id:orderId
                 },
@@ -141,6 +141,8 @@ export class OrderService{
 
                 }
             })
+
+          return newOrder;
         }catch(err){
             logger.error(err)
             throw new HttpException(err,HttpStatus.INTERNAL_SERVER_ERROR)
