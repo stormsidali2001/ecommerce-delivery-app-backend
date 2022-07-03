@@ -112,7 +112,7 @@ content-type:application/json
 }
 
 ###
-POST http://localhost:8080/order/to-delivery-man
+PUT http://localhost:8080/order/to-delivery-man
 content-type:application/json
 
 {
