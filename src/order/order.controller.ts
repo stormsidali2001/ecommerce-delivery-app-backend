@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { GetCurrentUser } from "src/common/decorators/get-current-user";
 import { OrderDto } from "src/dto/orderDtos";
 import { OrderService } from "./order.service";
@@ -18,5 +18,31 @@ export class OrderController{
         return this.orderService.createOrder(order,user.id)
     }
 
+    @Get("client")
+    async getClientOrders(@GetCurrentUser() user){
+        if(!user.roles.some(el=>el.name === 'client')){
+            throw new HttpException("permission denied",HttpStatus.FORBIDDEN);
+        }
+        return this.orderService.getClientOrders(user.id)
+    }
+
+    @Put("approve")
+    approveOrder(@Body("orderId",ParseIntPipe) orderId:number,@GetCurrentUser() user){
+        if(!user.roles.some(el=>el.name === 'admin')){
+            throw new HttpException("permission denied",HttpStatus.FORBIDDEN);
+        }
+        return this.orderService.approveOrder(orderId);
+    }
+
+    @Put("to-delivery-man")
+    async assignOrderToDeliveryMan(@GetCurrentUser() user,
+        @Body("orderId",ParseIntPipe) orderId:number,
+        @Body("deliveryManId",ParseIntPipe) deliveryManId:number
+    ){
+        if(!user.roles.some(el=>el.name === 'admin')){
+            throw new HttpException("permission denied",HttpStatus.FORBIDDEN);
+        }
+        return await this.orderService.assignOrderToDeliveryMan(orderId,deliveryManId);
+    }
 
 }

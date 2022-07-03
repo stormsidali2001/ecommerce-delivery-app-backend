@@ -2,7 +2,7 @@ POST http://localhost:8080/auth/signin
 content-type:application/json
 
 {
-    "email":"assoulsidali@gmail.com",
+    "email":"admino@gmail.com",
     "password":"123456"
 }
 
@@ -80,8 +80,42 @@ Content-Type:application/json
   "cart":[
     {
       "productId":"1",
-      "quantity":"20"
+      "quantity":"2000"
     }
   ]
   
+}
+###
+GET http://localhost:8080/order/client
+
+###
+PUT http://localhost:8080/order/approve
+Content-Type:application/json
+
+{
+  "orderId":"1"
+}
+
+###
+POST http://localhost:8080/auth/signup/deliveryMan
+content-type:application/json
+
+{
+    "email":"borahim@gmail.com",
+    "password":"123456",
+    "firstName":"borahim",
+    "lastName":"abedlkhbach",
+    "dob":"20-04-2001",
+    "phoneNumber":"0663737507",
+    "address":"bejaia",
+    "ssn":"566454544"
+}
+
+###
+POST http://localhost:8080/order/to-delivery-man
+content-type:application/json
+
+{
+    "orderId":"1",
+    "deliveryManId":"1"
 }
